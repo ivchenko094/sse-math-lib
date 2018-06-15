@@ -18,7 +18,7 @@
     <ClCompile Include="src\vectors.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\Matrix.cpp">
+    <ClCompile Include="src\Matrix.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
