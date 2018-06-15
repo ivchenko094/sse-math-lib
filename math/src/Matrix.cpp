@@ -74,3 +74,10 @@ mathLib::Matrix3x3 mathLib::operator+(const Matrix3x3 & _mat1, const Matrix3x3 &
   __m128 row2 = _mm_add_ps(_mat1.mmval[2], _mat2.mmval[2]);
   return Matrix3x3(row0,row1,row2);
 }
+mathLib::Matrix3x3 mathLib::operator-(const Matrix3x3 & _mat1, const Matrix3x3 & _mat2)
+{
+  __m128 row0 = _mm_sub_ps(_mat1.mmval[0], _mat2.mmval[0]);
+  __m128 row1 = _mm_sub_ps(_mat1.mmval[1], _mat2.mmval[1]);
+  __m128 row2 = _mm_sub_ps(_mat1.mmval[2], _mat2.mmval[2]);
+  return Matrix3x3(row0, row1, row2);
+}
