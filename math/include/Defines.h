@@ -26,7 +26,7 @@ static void free_simd(void* _mem)
 }
 
 
-#define MulBySign(_vec1, _vec2) {                                          \
+#define ShuffleBySign(_vec1, _vec2) {                                      \
   __m128 plus = _mm_shuffle_ps((_vec1), (_vec2), _MM_SHUFFLE(0,2,0,2));    \
   __m128 minus = _mm_shuffle_ps((_vec1), (_vec2), _MM_SHUFFLE(1,3,1,3));   \
   (_vec1) = plus; (_vec2) = minus;                                         \
