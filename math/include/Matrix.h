@@ -25,11 +25,12 @@ namespace mathLib {
 
     MATH_LIB_API ~Matrix3x3() {};
 
-    MATH_LIB_API friend __m128 operator * (const Matrix3x3& _mat, const vector3& _vec);
-    MATH_LIB_API friend __m128 operator * (const vector3& _vec, const Matrix3x3& _mat);
-    MATH_LIB_API friend Matrix3x3 operator+ (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
-    MATH_LIB_API friend Matrix3x3 operator- (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
-    MATH_LIB_API void operator += (const Matrix3x3& _mat);
+    MATH_LIB_API __forceinline friend __m128 operator * (const Matrix3x3& _mat, const vector3& _vec);
+    MATH_LIB_API __forceinline friend __m128 operator * (const vector3& _vec, const Matrix3x3& _mat);
+    MATH_LIB_API __forceinline friend Matrix3x3 operator+ (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
+    MATH_LIB_API __forceinline friend Matrix3x3 operator- (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
+    MATH_LIB_API __forceinline void operator += (const Matrix3x3& _mat);
+	MATH_LIB_API __forceinline void operator-=(const Matrix3x3 & _mat);
     union
     {
       __declspec(align(16)) float val[3][4];

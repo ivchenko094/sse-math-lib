@@ -44,6 +44,13 @@ void mathLib::Matrix3x3::operator+=(const Matrix3x3 & _mat)
   mmval[2] = _mm_add_ps(mmval[2], _mat.mmval[2]);
 }
 
+ void mathLib::Matrix3x3::operator-=(const Matrix3x3 & _mat)
+{
+	 mmval[0] = _mm_sub_ps(mmval[0], _mat.mmval[0]);
+	 mmval[1] = _mm_sub_ps(mmval[1], _mat.mmval[1]);
+	 mmval[2] = _mm_sub_ps(mmval[2], _mat.mmval[2]);
+}
+
 __m128 mathLib::operator*(const Matrix3x3 & _mat, const vector3 & _vec)
 {
   __m128 result = _mm_setzero_ps();

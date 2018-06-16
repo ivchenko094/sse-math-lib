@@ -21,27 +21,27 @@ namespace mathLib {
     MATH_LIB_API vector4(_In_reads_(4) const float* _vec)
       : x(_vec[0]), y(_vec[1]), z(_vec[2]), w(_vec[3]) {}
 
-    MATH_LIB_API __m128 operator + (const vector4& _vec2) const;
-    MATH_LIB_API __m128 operator - (const vector4& _vec2) const;
-    MATH_LIB_API __m128 operator * (const vector4& _vec2) const;
-    MATH_LIB_API __m128 operator / (const vector4& _vec2) const;
-    MATH_LIB_API void operator += (const vector4& _vec);
-    MATH_LIB_API void operator -= (const vector4& _vec);
-    MATH_LIB_API void operator *= (const vector4& _vec);
-    MATH_LIB_API void operator /= (const vector4& _vec);
-    MATH_LIB_API bool operator == (const vector4 & _vec) const;
-    MATH_LIB_API bool operator != (const vector4 & _vec) const;
-    MATH_LIB_API void operator = (const vector4 & _vec);
-    MATH_LIB_API void operator = (const __m128&  _mmval);
-    MATH_LIB_API float operator [] (const char ch) const;
-    MATH_LIB_API float operator [] (const size_t i) const;
+    MATH_LIB_API __forceinline __m128 operator + (const vector4& _vec2) const;
+    MATH_LIB_API __forceinline __m128 operator - (const vector4& _vec2) const;
+    MATH_LIB_API __forceinline __m128 operator * (const vector4& _vec2) const;
+    MATH_LIB_API __forceinline __m128 operator / (const vector4& _vec2) const;
+    MATH_LIB_API __forceinline void operator += (const vector4& _vec);
+    MATH_LIB_API __forceinline void operator -= (const vector4& _vec);
+    MATH_LIB_API __forceinline void operator *= (const vector4& _vec);
+    MATH_LIB_API __forceinline void operator /= (const vector4& _vec);
+    MATH_LIB_API __forceinline bool operator == (const vector4 & _vec) const;
+    MATH_LIB_API __forceinline bool operator != (const vector4 & _vec) const;
+    MATH_LIB_API __forceinline void operator = (const vector4 & _vec);
+    MATH_LIB_API __forceinline void operator = (const __m128&  _mmval);
+    MATH_LIB_API __forceinline float operator [] (const char ch) const;
+    MATH_LIB_API __forceinline float operator [] (const size_t i) const;
 
-    MATH_LIB_API void* operator new[](unsigned __int64 _size);
-    MATH_LIB_API void operator delete[](void* p);
-    MATH_LIB_API vector4 Normalize() const;
-    MATH_LIB_API float DotProduct(const vector4 & _vec) const;
-    MATH_LIB_API float Length() const;
-    MATH_LIB_API float RLength() const; // 1\Length
+    MATH_LIB_API __forceinline void* operator new[](unsigned __int64 _size);
+    MATH_LIB_API __forceinline void operator delete[](void* p);
+    MATH_LIB_API __forceinline vector4 Normalize() const;
+    MATH_LIB_API __forceinline float DotProduct(const vector4 & _vec) const;
+    MATH_LIB_API __forceinline float Length() const;
+    MATH_LIB_API __forceinline float RLength() const; // 1\Length
     
     union
     {
@@ -84,24 +84,24 @@ namespace mathLib {
       __declspec(align(16))__m128 mmval;
     };
 
-    MATH_LIB_API friend __m128 operator + (const vector3& _vec1, const vector3& _vec2);
-    MATH_LIB_API friend __m128 operator - (const vector3& _vec1, const vector3& _vec2);
-    MATH_LIB_API friend __m128 operator * (const vector3& _vec1, const vector3& _vec2);
-    MATH_LIB_API friend __m128 operator / (const vector3& _vec1, const vector3& _vec2);
-    MATH_LIB_API void operator += (const vector3& _vec);
-    MATH_LIB_API void operator -= (const vector3& _vec);
-    MATH_LIB_API void operator *= (const vector3& _vec);
-    MATH_LIB_API void operator /= (const vector3& _vec);
+    MATH_LIB_API __forceinline friend __m128 operator + (const vector3& _vec1, const vector3& _vec2);
+    MATH_LIB_API __forceinline friend __m128 operator - (const vector3& _vec1, const vector3& _vec2);
+    MATH_LIB_API __forceinline friend __m128 operator * (const vector3& _vec1, const vector3& _vec2);
+    MATH_LIB_API __forceinline friend __m128 operator / (const vector3& _vec1, const vector3& _vec2);
+    MATH_LIB_API __forceinline void operator += (const vector3& _vec);
+    MATH_LIB_API __forceinline void operator -= (const vector3& _vec);
+    MATH_LIB_API __forceinline void operator *= (const vector3& _vec);
+    MATH_LIB_API __forceinline void operator /= (const vector3& _vec);
 
-    MATH_LIB_API void operator = (const __m128& _mmval);
-    MATH_LIB_API void operator = (const vector3& _vec);
+    MATH_LIB_API __forceinline void operator = (const __m128& _mmval);
+    MATH_LIB_API __forceinline void operator = (const vector3& _vec);
 
-    MATH_LIB_API vector3 Normalize() const;
-    MATH_LIB_API float Length() const;
-    MATH_LIB_API float RLength() const;
-    MATH_LIB_API __m128 Cross(vector3& _vec) const;
+    MATH_LIB_API __forceinline vector3 Normalize() const;
+    MATH_LIB_API __forceinline float Length() const;
+    MATH_LIB_API __forceinline float RLength() const;
+    MATH_LIB_API __forceinline __m128 Cross(vector3& _vec) const;
     
-    MATH_LIB_API float DotProduct(const vector3 & _vec) const;
+    MATH_LIB_API __forceinline float DotProduct(const vector3 & _vec) const;
   };
 
 }
