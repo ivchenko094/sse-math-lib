@@ -53,7 +53,6 @@ void mathLib::Matrix3x3::operator+=(const Matrix3x3 & _mat)
 
  float mathLib::Matrix3x3::Determinant() const
  {
-	 __m128 zero = _mm_setzero_ps();
 	 __m128 Minor1 = _mm_mul_ps( 
 		 _mm_shuffle_ps(mmval[1], mmval[1], _MM_SHUFFLE(1, 2, 0, 2)), 
 		 _mm_shuffle_ps(mmval[2], mmval[2], _MM_SHUFFLE(2, 1, 2, 0))
@@ -63,9 +62,9 @@ void mathLib::Matrix3x3::operator+=(const Matrix3x3 & _mat)
 		 _mm_shuffle_ps(mmval[2], mmval[2], _MM_SHUFFLE(1, 0, 3, 3))
 	 );
 	 ShuffleBySign(Minor1, Minor2);
-	 zero = _mm_mul_ps(mmval[0], NanMask);
-	 Minor1 = _mm_dp_ps(Minor1, zero, 0x77);
-	 Minor2 = _mm_dp_ps(Minor2, zero, 0x77);
+	 __m128 maskedRow0 = _mm_mul_ps(mmval[0], NanMask);
+	 Minor1 = _mm_dp_ps(Minor1, maskedRow0, 0x77);
+	 Minor2 = _mm_dp_ps(Minor2, maskedRow0, 0x77);
 	 return  _mm_cvtss_f32(_mm_sub_ps(Minor1, Minor2));;
  }
 
