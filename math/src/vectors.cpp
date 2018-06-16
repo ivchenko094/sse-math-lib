@@ -152,6 +152,16 @@ void mathLib::vector3::operator=(const vector3 & _vec)
   mmval = _vec.mmval ;
 }
 
+bool mathLib::vector3::operator==(const vector3 & _vec) const
+{
+  return (((_mm_movemask_ps(_mm_cmpeq_ps(mmvalue, b.mmvalue))) & 0x7) == 0x7);
+}
+
+bool mathLib::vector3::operator!=(const vector3 & _vec) const
+{
+	return !(*this == _vec);
+}
+
 mathLib::vector3 mathLib::vector3::Normalize() const
 {
   return _mm_div_ps(mmval, _mm_sqrt_ps(_mm_dp_ps(mmval, mmval, 0x77)));

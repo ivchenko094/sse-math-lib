@@ -95,7 +95,8 @@ namespace mathLib {
 
     MATH_LIB_API __forceinline void operator = (const __m128& _mmval);
     MATH_LIB_API __forceinline void operator = (const vector3& _vec);
-
+	MATH_LIB_API __forceinline bool operator == (const vector3& _vec) const;
+	MATH_LIB_API __forceinline bool operator != (const vector3& _vec) const;
     MATH_LIB_API __forceinline vector3 Normalize() const;
     MATH_LIB_API __forceinline float Length() const;
     MATH_LIB_API __forceinline float RLength() const;
