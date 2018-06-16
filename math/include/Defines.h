@@ -26,5 +26,13 @@ static void free_simd(void* _mem)
 }
 
 
+#define ShuffleBySign(_vec1, _vec2) {                                      \
+  __m128 plus = _mm_shuffle_ps((_vec1), (_vec2), _MM_SHUFFLE(0,2,0,2));    \
+  __m128 minus = _mm_shuffle_ps((_vec1), (_vec2), _MM_SHUFFLE(1,3,1,3));   \
+  (_vec1) = plus; (_vec2) = minus;                                         \
+}
+
+#define NanMask _mm_set_ps(1,-1, 1,-1)
+
 #endif // ! DEFINES_H
 

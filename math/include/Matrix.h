@@ -31,6 +31,8 @@ namespace mathLib {
     MATH_LIB_API __forceinline friend Matrix3x3 operator- (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
     MATH_LIB_API __forceinline void operator += (const Matrix3x3& _mat);
 	MATH_LIB_API __forceinline void operator-=(const Matrix3x3 & _mat);
+	MATH_LIB_API __forceinline float Determinant() const;
+
     union
     {
       __declspec(align(16)) float val[3][4];
