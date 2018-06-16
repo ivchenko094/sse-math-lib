@@ -4,3 +4,4 @@
 
 # sse-math-lib
 Math lib using sse4
+Maybe in the future there will be support AVX and AVX2 instruction.
