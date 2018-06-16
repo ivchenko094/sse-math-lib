@@ -51,6 +51,38 @@ void mathLib::Matrix3x3::operator+=(const Matrix3x3 & _mat)
 	 mmval[2] = _mm_sub_ps(mmval[2], _mat.mmval[2]);
 }
 
+void mathLib::Matrix3x3::operator*=(const Matrix3x3 & _mat)
+ {
+	__m128 row0, row1, row2;
+	__m128 rowT0 = mmval[0];
+	__m128 rowT1 = mmval[1];
+	__m128 rowT2 = mmval[2];
+	_MM_TRANSPOSE4_PS(rowT0, rowT1, rowT2, _mm_setzero_ps());
+
+	row0 = _mm_add_ps(
+		_mm_add_ps(
+			_mm_dp_ps(_mat.mmval[0], rowT0, 0x71),
+			_mm_dp_ps(_mat.mmval[1], rowT0, 0x72)),
+		_mm_dp_ps(_mat.mmval[2], rowT0, 0x74));
+
+	row1 = _mm_add_ps(
+		_mm_add_ps(
+			_mm_dp_ps(_mat.mmval[0], rowT1, 0x71),
+			_mm_dp_ps(_mat.mmval[1], rowT1, 0x72)),
+		_mm_dp_ps(_mat.mmval[2], rowT1, 0x74));
+
+	row2 = _mm_add_ps(
+		_mm_add_ps(
+			_mm_dp_ps(_mat.mmval[0], rowT2, 0x71),
+			_mm_dp_ps(_mat.mmval[1], rowT2, 0x72)),
+		_mm_dp_ps(_mat.mmval[2], rowT2, 0x74));
+
+	_MM_TRANSPOSE4_PS(row0, row1, row2, _mm_setzero_ps());
+	mmval[0] = row0;
+	mmval[1] = row1;
+	mmval[2] = row2;
+ }
+
  float mathLib::Matrix3x3::Determinant() const
  {
 	 __m128 Minor1 = _mm_mul_ps( 
@@ -89,6 +121,36 @@ __m128 mathLib::operator*(const vector3 & _vec, const Matrix3x3 & _mat)
   result = _mm_add_ps(result, _mm_dp_ps(_vec.mmval, y1y2y3, 0x72));
   result = _mm_add_ps(result, _mm_dp_ps(_vec.mmval, z1z2z3, 0x74));
   return result;
+}
+
+mathLib::Matrix3x3 mathLib::operator*(const Matrix3x3 & _mat1, const Matrix3x3 & _mat2)
+{    
+	__m128 row0, row1, row2;
+	__m128 rowT0 = _mat1.mmval[0];
+	__m128 rowT1 = _mat1.mmval[1];
+	__m128 rowT2 = _mat1.mmval[2];
+	_MM_TRANSPOSE4_PS(rowT0, rowT1, rowT2, _mm_setzero_ps());
+
+	row0 = _mm_add_ps( 
+		_mm_add_ps(
+			_mm_dp_ps(_mat2.mmval[0], rowT0, 0x71), 
+			_mm_dp_ps(_mat2.mmval[1], rowT0, 0x72)),
+		_mm_dp_ps(_mat2.mmval[2], rowT0, 0x74));
+
+	row1 = _mm_add_ps(
+		_mm_add_ps(
+			_mm_dp_ps(_mat2.mmval[0], rowT1, 0x71),
+			_mm_dp_ps(_mat2.mmval[1], rowT1, 0x72)),
+		_mm_dp_ps(_mat2.mmval[2], rowT1, 0x74));
+
+	row2 = _mm_add_ps(
+		_mm_add_ps(
+			_mm_dp_ps(_mat2.mmval[0], rowT2, 0x71),
+			_mm_dp_ps(_mat2.mmval[1], rowT2, 0x72)),
+		_mm_dp_ps(_mat2.mmval[2], rowT2, 0x74));
+
+	_MM_TRANSPOSE4_PS(row0, row1, row2, _mm_setzero_ps());
+	return Matrix3x3(row0, row1,row2);
 }
 
 mathLib::Matrix3x3 mathLib::operator+(const Matrix3x3 & _mat1, const Matrix3x3 & _mat2)
