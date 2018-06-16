@@ -61,7 +61,7 @@ void mathLib::Matrix3x3::operator+=(const Matrix3x3 & _mat)
 		 _mm_shuffle_ps(mmval[1], mmval[1], _MM_SHUFFLE(0, 1, 3, 3)),
 		 _mm_shuffle_ps(mmval[2], mmval[2], _MM_SHUFFLE(1, 0, 3, 3))
 	 );
-	 ShuffleBySign(Minor1, Minor2);
+	 MulBySign(Minor1, Minor2);
 	 __m128 maskedRow0 = _mm_mul_ps(mmval[0], NanMask);
 	 Minor1 = _mm_dp_ps(Minor1, maskedRow0, 0x77);
 	 Minor2 = _mm_dp_ps(Minor2, maskedRow0, 0x77);
