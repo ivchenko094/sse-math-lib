@@ -2,7 +2,6 @@
 #define MATRIX_H
 
 #include "vectors.h"
-
 namespace mathLib {
 
   class Matrix3x3
@@ -27,13 +26,16 @@ namespace mathLib {
 
     MATH_LIB_API __forceinline friend __m128 operator * (const Matrix3x3& _mat, const vector3& _vec);
     MATH_LIB_API __forceinline friend __m128 operator * (const vector3& _vec, const Matrix3x3& _mat);
-	MATH_LIB_API __forceinline friend Matrix3x3 operator * (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
-    MATH_LIB_API __forceinline friend Matrix3x3 operator+ (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
-    MATH_LIB_API __forceinline friend Matrix3x3 operator- (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
+	  MATH_LIB_API __forceinline friend Matrix3x3 operator * (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
+    MATH_LIB_API __forceinline friend Matrix3x3 operator / (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
+    MATH_LIB_API __forceinline friend Matrix3x3 operator + (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
+    MATH_LIB_API __forceinline friend Matrix3x3 operator - (const Matrix3x3& _mat1, const Matrix3x3& _mat2);
     MATH_LIB_API __forceinline void operator += (const Matrix3x3& _mat);
-	MATH_LIB_API __forceinline void operator-=(const Matrix3x3 & _mat);
-	MATH_LIB_API __forceinline void operator *= ( const Matrix3x3& _mat);
-	MATH_LIB_API __forceinline float Determinant() const;
+	  MATH_LIB_API __forceinline void operator-=(const Matrix3x3 & _mat);
+	  MATH_LIB_API __forceinline void operator *= ( const Matrix3x3& _mat);
+    MATH_LIB_API __forceinline void operator /= (const Matrix3x3& _mat);
+	  MATH_LIB_API __forceinline float Determinant() const;
+    MATH_LIB_API __forceinline Matrix3x3 Inverse() const;
 
     union
     {

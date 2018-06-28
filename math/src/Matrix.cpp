@@ -83,6 +83,58 @@ void mathLib::Matrix3x3::operator*=(const Matrix3x3 & _mat)
 	mmval[2] = row2;
  }
 
+void mathLib::Matrix3x3::operator/=(const Matrix3x3 & _mat)
+{
+  __m128 a11a12a13;
+  __m128 a21a22a23;
+  __m128 a31a32a33;
+  __m128 det = _mm_set_ps1(_mat.Determinant());
+  //row 1
+  __m128 Minor1 = _mm_mul_ps(
+    _mm_shuffle_ps(_mat.mmval[1], _mat.mmval[1], _MM_SHUFFLE(1, 2, 0, 2)),
+    _mm_shuffle_ps(_mat.mmval[2], _mat.mmval[2], _MM_SHUFFLE(2, 1, 2, 0))
+  );
+  __m128 Minor2 = _mm_mul_ps(
+    _mm_shuffle_ps(_mat.mmval[1], _mat.mmval[1], _MM_SHUFFLE(0, 1, 3, 3)),
+    _mm_shuffle_ps(_mat.mmval[2], _mat.mmval[2], _MM_SHUFFLE(1, 0, 3, 3))
+  );
+  ShuffleBySign(Minor1, Minor2);
+  a11a12a13 = _mm_sub_ps(Minor2, Minor1);
+  //row2
+  Minor1 = _mm_mul_ps(
+    _mm_shuffle_ps(_mat.mmval[0], _mat.mmval[0], _MM_SHUFFLE(1, 2, 0, 2)),
+    _mm_shuffle_ps(_mat.mmval[2], _mat.mmval[2], _MM_SHUFFLE(2, 1, 2, 0))
+  );
+  Minor2 = _mm_mul_ps(
+    _mm_shuffle_ps(_mat.mmval[0], _mat.mmval[0], _MM_SHUFFLE(0, 1, 3, 3)),
+    _mm_shuffle_ps(_mat.mmval[2], _mat.mmval[2], _MM_SHUFFLE(1, 0, 3, 3))
+  );
+  ShuffleBySign(Minor1, Minor2);
+  a21a22a23 = _mm_sub_ps(Minor2, Minor1);
+  //row3
+  Minor1 = _mm_mul_ps(
+    _mm_shuffle_ps(_mat.mmval[0], _mat.mmval[0], _MM_SHUFFLE(1, 2, 0, 2)),
+    _mm_shuffle_ps(_mat.mmval[1], _mat.mmval[1], _MM_SHUFFLE(2, 1, 2, 0))
+  );
+  Minor2 = _mm_mul_ps(
+    _mm_shuffle_ps(_mat.mmval[0], _mat.mmval[0], _MM_SHUFFLE(0, 1, 3, 3)),
+    _mm_shuffle_ps(_mat.mmval[1], _mat.mmval[1], _MM_SHUFFLE(1, 0, 3, 3))
+  );
+  ShuffleBySign(Minor1, Minor2);
+  a31a32a33 = _mm_sub_ps(Minor2, Minor1);
+
+  a11a12a13 = _mm_div_ps(a11a12a13, det);
+  a21a22a23 = _mm_div_ps(a21a22a23, det);
+  a31a32a33 = _mm_div_ps(a31a32a33, det);
+
+  mmval[0] = _mm_mul_ps(a11a12a13, InversMultiplerRowNonEven);
+  mmval[1] = _mm_mul_ps(a21a22a23, InversMultiplerRowEven);
+  mmval[2] = _mm_mul_ps(a31a32a33, InversMultiplerRowNonEven);
+
+  _MM_TRANSPOSE4_PS(mmval[0], mmval[1], mmval[2], det);
+  
+}
+
  float mathLib::Matrix3x3::Determinant() const
  {
 	 __m128 Minor1 = _mm_mul_ps( 
@@ -98,6 +150,59 @@ void mathLib::Matrix3x3::operator*=(const Matrix3x3 & _mat)
 	 Minor1 = _mm_dp_ps(Minor1, maskedRow0, 0x77);
 	 Minor2 = _mm_dp_ps(Minor2, maskedRow0, 0x77);
 	 return  _mm_cvtss_f32(_mm_sub_ps(Minor1, Minor2));;
+ }
+
+ mathLib::Matrix3x3 mathLib::Matrix3x3::Inverse() const
+ {
+   __m128 a11a12a13;
+   __m128 a21a22a23;
+   __m128 a31a32a33;
+   __m128 det = _mm_set_ps1(this->Determinant());
+   //row 1
+   __m128 Minor1 = _mm_mul_ps(
+     _mm_shuffle_ps(mmval[1], mmval[1], _MM_SHUFFLE(1, 2, 0, 2)),
+     _mm_shuffle_ps(mmval[2], mmval[2], _MM_SHUFFLE(2, 1, 2, 0))
+   );
+   __m128 Minor2 = _mm_mul_ps(
+     _mm_shuffle_ps(mmval[1], mmval[1], _MM_SHUFFLE(0, 1, 3, 3)),
+     _mm_shuffle_ps(mmval[2], mmval[2], _MM_SHUFFLE(1, 0, 3, 3))
+   );
+   ShuffleBySign(Minor1, Minor2);
+   a11a12a13 = _mm_sub_ps(Minor2, Minor1);
+   //row2
+   Minor1 = _mm_mul_ps(
+     _mm_shuffle_ps(mmval[0], mmval[0], _MM_SHUFFLE(1, 2, 0, 2)),
+     _mm_shuffle_ps(mmval[2], mmval[2], _MM_SHUFFLE(2, 1, 2, 0))
+   );
+   Minor2 = _mm_mul_ps(
+     _mm_shuffle_ps(mmval[0], mmval[0], _MM_SHUFFLE(0, 1, 3, 3)),
+     _mm_shuffle_ps(mmval[2], mmval[2], _MM_SHUFFLE(1, 0, 3, 3))
+   );
+   ShuffleBySign(Minor1, Minor2);
+   a21a22a23 = _mm_sub_ps(Minor2, Minor1);
+   //row3
+   Minor1 = _mm_mul_ps(
+     _mm_shuffle_ps(mmval[0], mmval[0], _MM_SHUFFLE(1, 2, 0, 2)),
+     _mm_shuffle_ps(mmval[1], mmval[1], _MM_SHUFFLE(2, 1, 2, 0))
+   );
+   Minor2 = _mm_mul_ps(
+     _mm_shuffle_ps(mmval[0], mmval[0], _MM_SHUFFLE(0, 1, 3, 3)),
+     _mm_shuffle_ps(mmval[1], mmval[1], _MM_SHUFFLE(1, 0, 3, 3))
+   );
+   ShuffleBySign(Minor1, Minor2);
+   a31a32a33 = _mm_sub_ps(Minor2, Minor1);
+
+   a11a12a13 = _mm_div_ps(a11a12a13, det);
+   a21a22a23 = _mm_div_ps(a21a22a23, det);
+   a31a32a33 = _mm_div_ps(a31a32a33, det);
+
+   a11a12a13 = _mm_mul_ps(a11a12a13, InversMultiplerRowNonEven);
+   a21a22a23 = _mm_mul_ps(a21a22a23, InversMultiplerRowEven);
+   a31a32a33 = _mm_mul_ps(a31a32a33, InversMultiplerRowNonEven);
+
+   _MM_TRANSPOSE4_PS(a11a12a13, a21a22a23, a31a32a33, det);
+
+   return Matrix3x3(a11a12a13, a21a22a23, a31a32a33);
  }
 
 __m128 mathLib::operator*(const Matrix3x3 & _mat, const vector3 & _vec)
@@ -151,6 +256,11 @@ mathLib::Matrix3x3 mathLib::operator*(const Matrix3x3 & _mat1, const Matrix3x3 &
 
 	_MM_TRANSPOSE4_PS(row0, row1, row2, _mm_setzero_ps());
 	return Matrix3x3(row0, row1,row2);
+}
+
+mathLib::Matrix3x3 mathLib::operator/(const Matrix3x3 & _mat1, const Matrix3x3 & _mat2)
+{
+  return _mat1 * _mat2.Inverse();
 }
 
 mathLib::Matrix3x3 mathLib::operator+(const Matrix3x3 & _mat1, const Matrix3x3 & _mat2)

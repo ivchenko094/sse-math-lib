@@ -154,7 +154,7 @@ void mathLib::vector3::operator=(const vector3 & _vec)
 
 bool mathLib::vector3::operator==(const vector3 & _vec) const
 {
-  return (((_mm_movemask_ps(_mm_cmpeq_ps(mmvalue, b.mmvalue))) & 0x7) == 0x7);
+  return (((_mm_movemask_ps(_mm_cmpeq_ps(mmval, _vec.mmval))) & 0x7) == 0x7);
 }
 
 bool mathLib::vector3::operator!=(const vector3 & _vec) const

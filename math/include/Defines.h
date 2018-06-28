@@ -34,5 +34,10 @@ static void free_simd(void* _mem)
 
 #define NanMask _mm_set_ps(1,-1, 1,-1)
 
+//for matrix
+#define InversMultiplerRowEven _mm_set_ps(1,-1, 1,-1)
+#define InversMultiplerRowNonEven _mm_set_ps(-1, 1, -1, 1)
+
+
 #endif // ! DEFINES_H
 
