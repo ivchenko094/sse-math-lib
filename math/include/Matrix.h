@@ -34,6 +34,8 @@ namespace mathLib {
 	  MATH_LIB_API __forceinline void operator-=(const Matrix3x3 & _mat);
 	  MATH_LIB_API __forceinline void operator *= ( const Matrix3x3& _mat);
     MATH_LIB_API __forceinline void operator /= (const Matrix3x3& _mat);
+    MATH_LIB_API __forceinline bool operator == (const Matrix3x3& _mat);
+    MATH_LIB_API __forceinline bool operator != (const Matrix3x3& _mat);
 	  MATH_LIB_API __forceinline float Determinant() const;
     MATH_LIB_API __forceinline Matrix3x3 Inverse() const;
 

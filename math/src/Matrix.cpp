@@ -135,6 +135,18 @@ void mathLib::Matrix3x3::operator/=(const Matrix3x3 & _mat)
   
 }
 
+ bool mathLib::Matrix3x3::operator==(const Matrix3x3 & _mat)
+{
+  return ((((_mm_movemask_ps(_mm_cmpeq_ps(mmval[0], _mat.mmval[0]))) & 0x7) == 0x7)
+    && (((_mm_movemask_ps(_mm_cmpeq_ps(mmval[1], _mat.mmval[1]))) & 0x7) == 0x7)
+    && (((_mm_movemask_ps(_mm_cmpeq_ps(mmval[2], _mat.mmval[2]))) & 0x7) == 0x7));
+}
+
+  bool mathLib::Matrix3x3::operator!=(const Matrix3x3 & _mat)
+ {
+   return !(*this == _mat);
+ }
+
  float mathLib::Matrix3x3::Determinant() const
  {
 	 __m128 Minor1 = _mm_mul_ps( 
